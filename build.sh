@@ -31,3 +31,4 @@ echo "Running build $service..."
 go build -o "${rootDir}/output/${serviceName}" "$rootDir"/srv/"$serviceName"/
 exit 0
 
+
