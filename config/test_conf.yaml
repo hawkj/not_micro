@@ -1,0 +1,11 @@
+my-todo-db:
+  host: "114.115.244.230"
+  port: "3306"
+  user: "root"
+  password: "test"
+  dbname: "my_todo"
+redis:
+  addr: "114.115.244.230:6379"
+kafka:
+  # Kafka 主机地址
+  host: "114.115.244.230:9092"
