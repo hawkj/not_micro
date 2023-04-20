@@ -12,9 +12,9 @@
 
 # quick start
 ## 环境搭建
-### 在服务器上创建文件夹用来保存容器中的持久花数据
+### 在服务器上创建文件夹用来保存容器中的持久化数据
 1. mkdir -p -m 777 /var/container_data/
-### 启动环境
+### 启动环境 (mysql,redis,kafka,jaeger,...)
 1. cd <not_micro根目录>
 2. docker-compose up -d
 
