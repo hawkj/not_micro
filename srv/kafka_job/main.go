@@ -27,10 +27,10 @@ func main() {
 	configFile := ""
 	if env == "production" {
 		gin.SetMode(gin.ReleaseMode)
-		configFile = "/Users/testtest/StudyWorkSpace/my-todo/config/test_conf.yaml"
+		configFile = "/Users/testtest/StudyWorkSpace/not_micro/config/test_conf.yaml"
 	} else {
 		gin.SetMode(gin.DebugMode)
-		configFile = "/Users/testtest/StudyWorkSpace/my-todo/config/test_conf.yaml"
+		configFile = "/Users/testtest/StudyWorkSpace/my-todo/not_micro/test_conf.yaml"
 	}
 	// Parse command line arguments
 	// -topic test-topic

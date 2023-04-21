@@ -15,13 +15,16 @@ import (
 	"time"
 )
 
+const SERVERNAME = "gpt"
+
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+	ServerInfo := config.GetServerInfo(SERVERNAME)
 	// 创建Gin引擎
 	r := gin.Default()
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ServerInfo.Addr,
 		Handler: r,
 	}
 

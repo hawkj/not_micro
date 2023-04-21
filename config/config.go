@@ -40,3 +40,20 @@ func GetConfig(configFile string) *Config {
 	}
 	return &config
 }
+
+type Server struct {
+	Name string
+	Addr string
+}
+
+var Servers = map[string]Server{
+	"gpt": {Name: "gpt", Addr: ":8901"},
+}
+
+func GetServerInfo(serverName string) *Server {
+	server, ok := Servers[serverName]
+	if !ok {
+		return nil
+	}
+	return &server
+}

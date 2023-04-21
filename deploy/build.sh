@@ -1,8 +1,13 @@
 #!/bin/bash
 
 # 获取当前脚本运行的目录
-rootDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-whitelist=("kafka_job" "my_todo")
+currentDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+rootDir="$currentDir/../"
+whitelist=()
+while IFS= read -r line; do
+    whitelist+=("$line")
+done < "$rootDir/deploy/service_white_list"
+
 serviceName="$1"
 
 if [ "$serviceName" = "all" ]; then

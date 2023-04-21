@@ -12,7 +12,6 @@ import (
 )
 
 func TaskCreate(c *requestcontext.CommonContext) {
-	time.Sleep(10 * time.Second)
 	taskId, err := mytodoservice.TaskCreate(c)
 	if err != nil {
 		c.GinContext.JSON(http.StatusInternalServerError, gin.H{
