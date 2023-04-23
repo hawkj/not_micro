@@ -3,7 +3,7 @@ package kafkajob
 import (
 	"context"
 	"fmt"
-	"gitee.com/lichuan2022/my-todo/pkg/common"
+	"github.com/hawkj/not_micro/pkg/common"
 )
 
 func Test(ctx context.Context, g *common.Global, msg []byte) {

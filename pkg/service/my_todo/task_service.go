@@ -1,11 +1,10 @@
 package mytodoservice
 
 import (
-	"gitee.com/lichuan2022/my-todo/pkg/common"
-	"gitee.com/lichuan2022/my-todo/pkg/context"
-
-	"gitee.com/lichuan2022/my-todo/pkg/db_mysql/my_todo"
-	"gitee.com/lichuan2022/my-todo/pkg/db_mysql/my_todo/model"
+	"github.com/hawkj/not_micro/pkg/common"
+	requestcontext "github.com/hawkj/not_micro/pkg/context"
+	mytododb "github.com/hawkj/not_micro/pkg/db_mysql/my_todo"
+	mytodomodel "github.com/hawkj/not_micro/pkg/db_mysql/my_todo/model"
 	"time"
 )
 

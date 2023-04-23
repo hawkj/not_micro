@@ -2,7 +2,7 @@ package mytododb
 
 import (
 	"fmt"
-	"gitee.com/lichuan2022/my-todo/config"
+	"github.com/hawkj/not_micro/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

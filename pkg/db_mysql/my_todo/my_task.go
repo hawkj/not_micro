@@ -2,7 +2,7 @@ package mytododb
 
 import (
 	"context"
-	"gitee.com/lichuan2022/my-todo/pkg/db_mysql/my_todo/model"
+	mytodomodel "github.com/hawkj/not_micro/pkg/db_mysql/my_todo/model"
 	"gorm.io/gorm"
 )
 

@@ -3,9 +3,9 @@ package middleware
 import (
 	"context"
 	"errors"
-	"gitee.com/lichuan2022/my-todo/config"
-	"gitee.com/lichuan2022/my-todo/pkg/common"
-	"gitee.com/lichuan2022/my-todo/pkg/context"
+	"github.com/hawkj/not_micro/config"
+	"github.com/hawkj/not_micro/pkg/common"
+	"github.com/hawkj/not_micro/pkg/context"
 	"net/http"
 	"time"
 

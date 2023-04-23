@@ -1,8 +1,8 @@
 package redis
 
 import (
-	"gitee.com/lichuan2022/my-todo/config"
 	"github.com/go-redis/redis/v8"
+	"github.com/hawkj/not_micro/config"
 )
 
 func NewRedis(c config.Redis) *redis.Client {

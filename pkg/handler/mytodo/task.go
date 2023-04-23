@@ -2,11 +2,11 @@ package handlermytodo
 
 import (
 	"fmt"
-	"gitee.com/lichuan2022/my-todo/pkg/common"
-	requestcontext "gitee.com/lichuan2022/my-todo/pkg/context"
-	"gitee.com/lichuan2022/my-todo/pkg/kafka"
-	mytodoservice "gitee.com/lichuan2022/my-todo/pkg/service/my_todo"
 	"github.com/gin-gonic/gin"
+	"github.com/hawkj/not_micro/pkg/common"
+	requestcontext "github.com/hawkj/not_micro/pkg/context"
+	"github.com/hawkj/not_micro/pkg/kafka"
+	mytodoservice "github.com/hawkj/not_micro/pkg/service/my_todo"
 	"net/http"
 	"time"
 )

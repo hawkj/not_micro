@@ -1,78 +1,68 @@
 package main
 
 import (
-	"context"
-	"gitee.com/lichuan2022/my-todo/config"
-	"gitee.com/lichuan2022/my-todo/pkg/common"
-	"gitee.com/lichuan2022/my-todo/pkg/db_mysql/my_todo"
-	"gitee.com/lichuan2022/my-todo/pkg/handler/mytodo"
-	"gitee.com/lichuan2022/my-todo/pkg/middleware"
-	"gitee.com/lichuan2022/my-todo/pkg/redis"
-	"github.com/gin-gonic/gin"
-	"log"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
-	"os"
-	"time"
 )
 
-const SERVERNAME = "gpt"
+const apiKey = "YOUR_API_KEY"
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	ServerInfo := config.GetServerInfo(SERVERNAME)
-	// 创建Gin引擎
-	r := gin.Default()
-	srv := &http.Server{
-		Addr:    ServerInfo.Addr,
-		Handler: r,
+	// 构造请求的数据
+	reqData := map[string]interface{}{
+		"prompt":      "What is the meaning of life?",
+		"max_tokens":  10,
+		"temperature": 0.5,
+		"n":           1,
+		"stop":        "\n",
 	}
 
-	//export APP_ENV=dev
-	env := os.Getenv("APP_ENV")
-	configFile := ""
-	if env == "production" {
-		gin.SetMode(gin.ReleaseMode)
-		configFile = "/Users/testtest/StudyWorkSpace/not_micro/config/test_conf.yaml"
-	} else {
-		gin.SetMode(gin.DebugMode)
-		configFile = "/Users/testtest/StudyWorkSpace/not_micro/config/test_conf.yaml"
+	// 转换请求数据为 JSON 格式
+	reqJson, err := json.Marshal(reqData)
+	if err != nil {
+		fmt.Println("Failed to marshal request data: ", err)
+		return
 	}
 
-	config := config.GetConfig(configFile)
-
-	g := &common.Global{
-		DbMyTodo: mytododb.NewDb(config.MyTodoDb),
-		Redis:    redis.NewRedis(config.Redis),
+	// 构造 API 请求
+	apiUrl := "https://api.openai.com/v1/engines/davinci-codex/completions"
+	req, err := http.NewRequest("POST", apiUrl, bytes.NewBuffer(reqJson))
+	if err != nil {
+		fmt.Println("Failed to create API request: ", err)
+		return
 	}
 
-	baseGroup := r.Group("", middleware.CommonContext(g, config))
+	// 设置 API 访问密钥
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
 
-	commonApi := baseGroup.Group("/api")
-	commonApi.GET("/test", middleware.MyHandlerWrapper(handlermytodo.Test))
-
-	taskApi := baseGroup.Group("/api/task")
-	taskApi.Use(middleware.TimeoutMiddleware(3 * time.Second))
-
-	taskApi.POST("/create", middleware.MyHandlerWrapper(handlermytodo.TaskCreate))
-	taskApi.POST("/msg_post", middleware.MyHandlerWrapper(handlermytodo.PostMsg))
-	// 启动服务器
-	go func() {
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("listen: %s\n", err)
-		}
-	}()
-	// 等待停止信号
-	<-ctx.Done()
-
-	// 设置超时时间
-	timeoutCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	// 关闭 HTTP 服务器
-	log.Println("shutting down server...")
-	if err := srv.Shutdown(timeoutCtx); err != nil {
-		log.Fatal("server shutdown:", err)
+	// 发送 API 请求
+	client := http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Failed to send API request: ", err)
+		return
 	}
-	log.Println("server exiting")
+	defer resp.Body.Close()
+
+	// 解析 API 响应
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Failed to read API response: ", err)
+		return
+	}
+
+	var respData map[string]interface{}
+	err = json.Unmarshal(respBody, &respData)
+	if err != nil {
+		fmt.Println("Failed to unmarshal API response: ", err)
+		return
+	}
+
+	// 提取生成的答案
+	answer := respData["choices"].([]interface{})[0].(map[string]interface{})["text"].(string)
+
+	fmt.Println("Answer:", answer)
 }
